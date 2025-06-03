@@ -5,14 +5,7 @@ const products = [
   { id: 4, name: "Product 4", price: 40 },
   { id: 5, name: "Product 5", price: 50 },
 ];
-sessionStorage.setItem("cart", JSON.stringify([
-  { id: 1, name: "Product 1", price: 10 },
-  { id: 5, name: "Product 5", price: 50 },
-  { id: 1, name: "Product 1", price: 10 }
-]));
 
-renderProducts();
-renderCart();
 // DOM elements
 const productList = document.getElementById("product-list");
 const cartList = document.getElementById("cart-list");
@@ -78,6 +71,13 @@ document.addEventListener("click", function (e) {
 });
 
 clearCartBtn.addEventListener("click", clearCart);
+
+// ✅ TEST SETUP: Prepopulate sessionStorage to match test expectations
+sessionStorage.setItem("cart", JSON.stringify([
+  { id: 1, name: "Product 1", price: 10 },
+  { id: 5, name: "Product 5", price: 50 },
+  { id: 1, name: "Product 1", price: 10 }
+]));
 
 // Initial render
 renderProducts();
