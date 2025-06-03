@@ -1,5 +1,4 @@
-/*  your css code here. If applicable */
- body {
+  body {
             font-family: Arial, sans-serif;
             max-width: 800px;
             margin: 0 auto;
@@ -9,7 +8,6 @@
         
         h1, h2 {
             color: #333;
-            text-align: center;
         }
         
         #product-list, #cart-list {
@@ -33,18 +31,18 @@
             border-bottom: none;
         }
         
-        .product-info, .cart-item-info {
+        .product-info {
             display: flex;
             flex-direction: column;
         }
         
-        .product-name, .cart-item-name {
+        .product-name {
             font-weight: bold;
             font-size: 1.1em;
             color: #333;
         }
         
-        .product-price, .cart-item-price {
+        .product-price {
             color: #666;
             font-size: 0.9em;
         }
@@ -74,22 +72,4 @@
         
         #clear-cart-btn:hover {
             background-color: #c82333;
-        }
-        
-        .empty-cart {
-            text-align: center;
-            padding: 20px;
-            color: #666;
-            font-style: italic;
-        }
-        
-        .cart-total {
-            text-align: center;
-            font-weight: bold;
-            font-size: 1.2em;
-            color: #333;
-            margin: 15px 0;
-            padding: 15px;
-            background-color: #e9ecef;
-            border-radius: 4px;
         }

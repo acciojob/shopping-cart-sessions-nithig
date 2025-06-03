@@ -1,4 +1,4 @@
-const products = [
+ const products = [
             { id: 1, name: "Product 1", price: 10 },
             { id: 2, name: "Product 2", price: 20 },
             { id: 3, name: "Product 3", price: 30 },
@@ -14,6 +14,14 @@ const products = [
         // Initialize the page
         function init() {
             renderProducts();
+            // Ensure sessionStorage always has cart key
+            try {
+                if (!sessionStorage.getItem('cart')) {
+                    sessionStorage.setItem('cart', JSON.stringify([]));
+                }
+            } catch (error) {
+                console.log('SessionStorage not available');
+            }
             loadCart();
         }
 
@@ -41,6 +49,9 @@ const products = [
                 if (cartData) {
                     const cart = JSON.parse(cartData);
                     renderCart(cart);
+                } else {
+                    // Initialize with empty array if no cart exists
+                    sessionStorage.setItem('cart', JSON.stringify([]));
                 }
             } catch (error) {
                 // If sessionStorage fails, cart remains empty
@@ -98,7 +109,7 @@ const products = [
         // Clear cart
         function clearCart() {
             try {
-                sessionStorage.removeItem('cart');
+                sessionStorage.setItem('cart', JSON.stringify([]));
             } catch (error) {
                 console.log('SessionStorage not available');
             }
