@@ -1,1 +1,95 @@
 /*  your css code here. If applicable */
+ body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        h1, h2 {
+            color: #333;
+            text-align: center;
+        }
+        
+        #product-list, #cart-list {
+            list-style: none;
+            padding: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+        
+        #product-list li, #cart-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        #product-list li:last-child, #cart-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .product-info, .cart-item-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .product-name, .cart-item-name {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #333;
+        }
+        
+        .product-price, .cart-item-price {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #0056b3;
+        }
+        
+        #clear-cart-btn {
+            background-color: #dc3545;
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 1em;
+        }
+        
+        #clear-cart-btn:hover {
+            background-color: #c82333;
+        }
+        
+        .empty-cart {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-style: italic;
+        }
+        
+        .cart-total {
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #333;
+            margin: 15px 0;
+            padding: 15px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+        }
