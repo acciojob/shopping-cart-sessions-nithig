@@ -6,19 +6,15 @@ const products = [
             { id: 5, name: "Product 5", price: 50 },
         ];
 
-        // In-memory cart storage (replaces sessionStorage for Claude.ai compatibility)
-        let cart = [];
-
         // DOM elements
         const productList = document.getElementById('product-list');
         const cartList = document.getElementById('cart-list');
         const clearCartBtn = document.getElementById('clear-cart-btn');
-        const cartTotal = document.getElementById('cart-total');
 
         // Initialize the page
         function init() {
             renderProducts();
-            renderCart();
+            loadCart();
         }
 
         // Render products list
@@ -38,94 +34,75 @@ const products = [
             });
         }
 
+        // Load cart from sessionStorage
+        function loadCart() {
+            try {
+                const cartData = sessionStorage.getItem('cart');
+                if (cartData) {
+                    const cart = JSON.parse(cartData);
+                    renderCart(cart);
+                }
+            } catch (error) {
+                // If sessionStorage fails, cart remains empty
+                console.log('SessionStorage not available');
+            }
+        }
+
         // Add product to cart
         function addToCart(productId) {
             const product = products.find(p => p.id === productId);
             if (product) {
-                // Check if product already exists in cart
-                const existingItem = cart.find(item => item.id === productId);
-                
-                if (existingItem) {
-                    existingItem.quantity += 1;
-                } else {
+                try {
+                    // Get current cart from sessionStorage
+                    let cart = [];
+                    const cartData = sessionStorage.getItem('cart');
+                    if (cartData) {
+                        cart = JSON.parse(cartData);
+                    }
+                    
+                    // Add product to cart
                     cart.push({
                         id: product.id,
                         name: product.name,
-                        price: product.price,
-                        quantity: 1
+                        price: product.price
                     });
-                }
-                
-                renderCart();
-                updateCartTotal();
-            }
-        }
-
-        // Remove item from cart
-        function removeFromCart(productId) {
-            cart = cart.filter(item => item.id !== productId);
-            renderCart();
-            updateCartTotal();
-        }
-
-        // Update item quantity
-        function updateQuantity(productId, change) {
-            const item = cart.find(item => item.id === productId);
-            if (item) {
-                item.quantity += change;
-                if (item.quantity <= 0) {
-                    removeFromCart(productId);
-                } else {
-                    renderCart();
-                    updateCartTotal();
+                    
+                    // Save to sessionStorage
+                    sessionStorage.setItem('cart', JSON.stringify(cart));
+                    
+                    // Re-render cart
+                    renderCart(cart);
+                } catch (error) {
+                    // If sessionStorage fails, still show in cart temporarily
+                    console.log('SessionStorage not available');
+                    const li = document.createElement('li');
+                    li.textContent = `${product.name} - $${product.price}`;
+                    cartList.appendChild(li);
                 }
             }
         }
 
         // Render cart
-        function renderCart() {
+        function renderCart(cart) {
             cartList.innerHTML = '';
             
-            if (cart.length === 0) {
-                const emptyMessage = document.createElement('li');
-                emptyMessage.className = 'empty-cart';
-                emptyMessage.textContent = 'Your cart is empty';
-                cartList.appendChild(emptyMessage);
-                clearCartBtn.style.display = 'none';
-                cartTotal.style.display = 'none';
-            } else {
+            if (cart && cart.length > 0) {
                 cart.forEach(item => {
                     const li = document.createElement('li');
-                    li.innerHTML = `
-                        <div class="cart-item-info">
-                            <span class="cart-item-name">${item.name}</span>
-                            <span class="cart-item-price">$${item.price} × ${item.quantity} = $${item.price * item.quantity}</span>
-                        </div>
-                        <div>
-                            <button onclick="updateQuantity(${item.id}, -1)">-</button>
-                            <span style="margin: 0 10px;">${item.quantity}</span>
-                            <button onclick="updateQuantity(${item.id}, 1)">+</button>
-                            <button onclick="removeFromCart(${item.id})" style="margin-left: 10px; background-color: #dc3545;">Remove</button>
-                        </div>
-                    `;
+                    li.textContent = `${item.name} - $${item.price}`;
                     cartList.appendChild(li);
                 });
-                clearCartBtn.style.display = 'block';
-                cartTotal.style.display = 'block';
             }
-        }
-
-        // Update cart total
-        function updateCartTotal() {
-            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            cartTotal.textContent = `Total: $${total}`;
         }
 
         // Clear cart
         function clearCart() {
-            cart = [];
-            renderCart();
-            updateCartTotal();
+            try {
+                sessionStorage.removeItem('cart');
+            } catch (error) {
+                console.log('SessionStorage not available');
+            }
+            cartList.innerHTML = '';
         }
 
         // Event listeners
